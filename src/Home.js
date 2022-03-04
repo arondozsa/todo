@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import './styles.scss'
 
 const Home = () => {
   const users = useSelector(state =>state.users)
@@ -98,36 +99,44 @@ const Home = () => {
   
   return (
     <>
-      <h1>Todo app</h1>
-      <button onClick ={logout}>kilép</button>
+      <header>
+        <h1>Todo app</h1>
+        <button onClick ={logout}>kilép</button>
+      </header>
       {!user?
-        <>
+        <div className='login'>
           <input type={'text'} onChange={e => setUserName(e.target.value)} value={userName}/>
           <button onClick={login}>Tovább</button>
-        </>
+        </div>
       : 
-        <>
+        <div className='pageContainer'>
           <h2>Szia {user}!</h2>
           <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
           <button onClick={addTodo}>Hozzáad</button>
-          {users[user]?.map((todo, i)  => (
-            <div key ={i}>
-              {!todo.isBeingEdited? 
-                <h3>{todo.label}</h3>
-                :<>
-                <input 
-                  type={'text'}  
-                  value = {newLabel} 
-                  onChange = {e => setNewLabel(e.target.value)}></input>
-                <button onClick = {() => modifyTodo(todo.id)}>ment</button>
-                </>}
-              {todo.done? <p>kész</p> : <p>nincs kész</p>}
-              <button onClick = {() => deleteTodo(todo.id)}>törlés</button>
-              <button onClick={() => finishTodo(todo.id)}>kész</button>
-              <button onClick ={() => editTodo(todo)}>mod</button>
-            </div>))}
+          <div className='todoContainer'>
           
-        </>
+            {users[user]?.map((todo, i)  => (
+              <div className='todoCard' key ={i}>
+                {!todo.isBeingEdited? 
+                  <h3>{todo.label}</h3>
+                  :<>
+                  <input 
+                    type={'text'}  
+                    value = {newLabel} 
+                    onChange = {e => setNewLabel(e.target.value)}></input>
+                  <button onClick = {() => modifyTodo(todo.id)}>ment</button>
+                  </>}
+                {todo.done? <p>kész</p> : <p>nincs kész</p>}
+                <div className='buttonContainer'>
+                  <button onClick = {() => deleteTodo(todo.id)}>törlés</button>
+                  <button onClick={() => finishTodo(todo.id)}>kész</button>
+                  <button onClick ={() => editTodo(todo)}>mod</button>
+                </div>
+              </div>))}
+              
+          </div>
+          
+        </div>
       }
     </>
   )
