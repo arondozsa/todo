@@ -1,10 +1,7 @@
 const initialState = {
-  users: {
-   
-  }
-
+  currentUser : '' , 
+  users: { }
 }
-
 const reducer = (state = initialState, action) => {
   let currentTodo;
   switch (action.type) {
@@ -17,7 +14,6 @@ const reducer = (state = initialState, action) => {
     case 'deleteTodo' : 
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user].filter(todo => {
-          console.log(action.payload.id)
           return todo.id !== action.payload.id})]}
     }
     case 'finishTodo' :
@@ -29,13 +25,30 @@ const reducer = (state = initialState, action) => {
     case 'modifyTodo' : 
       currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
       currentTodo.label = action.payload.newLabel
+      currentTodo.isBeingEdited = false
+      return {
+        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
+      }
+      case 'editingTodo': 
+      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
+      currentTodo.isBeingEdited = action.payload.isBeingEdited
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
       }
     case 'addUser' : 
-      return {
-        ...state, users : {...state.users, [action.payload] : []}
+      if (Object.keys(state.users).find(e => e == action.payload)) {
+        return {
+          ...state, currentUser : action.payload, users : {...state.users, }
+        }
       }
+      return {
+        ...state, currentUser : action.payload, users : {...state.users, [action.payload] : []}
+      }
+
+    case 'logout' : 
+      return {
+        ...state,  currentUser : action.payload
+      }  
   }
 }
 

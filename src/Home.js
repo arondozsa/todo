@@ -3,29 +3,30 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Home = () => {
   const users = useSelector(state =>state.users)
-  const [text, setText] = React.useState('')
+  const currentUser = useSelector(state =>state.currentUser)
+  console.log(users)
+  const [userName, setUserName] = React.useState('')
   const [user, setUser] = React.useState('')
   const [todo, setTodo] = React.useState('')
-  const [todoList, setTodoList] = React.useState('')
   const [newLabel, setNewLabel] = React.useState('')
-  const [editTodo, setEditTodo] = React.useState(false)
   const dispatch = useDispatch()
   
 
-  // React.useEffect(() => {
-  //   if (userr) setUser(userr)
-  // },[])
+  React.useEffect(() => {
+    if (currentUser) setUser(currentUser)
+  },[])
 
   function login() {
-    if (!text) return alert('Nem adtál meg felhasználónevet')
-    if (text) {
-      setUser(text)
+    if (!userName) return alert('Nem adtál meg felhasználónevet')
+    if (userName) {
+      setUser(userName)
       dispatch({
         type: 'addUser',
-        payload : text
+        payload : userName
       })
     }
   }
+
   function addTodo() {
     let todoId = Math.floor(Math.random()*100);
     while (Object.values(users).some(e => e.id === todoId)) {
@@ -40,10 +41,9 @@ const Home = () => {
         done : false
       }
     })
-    setTodoList(prevTodoList => [...prevTodoList, todo])
     setTodo('')
-
   }
+
   function deleteTodo (id) {
     dispatch({
       type : 'deleteTodo',
@@ -52,9 +52,9 @@ const Home = () => {
         user: user
       } 
     })
-    setTodoList('')
   }
-  function finishTodo (id) {
+
+  function finishTodo(id) {
     dispatch({
       type : 'finishTodo',
       payload : {
@@ -63,24 +63,47 @@ const Home = () => {
       } 
     })
   }
-  function modifyTodo (id) {
+
+  function modifyTodo(id) {
     dispatch({
       type : 'modifyTodo',
       payload : {
         id: id,
         newLabel : newLabel,
-        user: user
+        user: user,
+        isBeingEdited : false
       }
     })
-    setEditTodo(false)
+  }
+
+  function editTodo(todo) {
+    dispatch({
+      type : 'editingTodo',
+      payload : {
+        id : todo.id,
+        isBeingEdited : true,
+        user: todo.user,
+      }
+    })
+    setNewLabel(todo.label)
+  }
+  
+  function logout() {
+    dispatch({
+      type : 'logout',
+      payload : ''
+    })
+    setUser('')
+    setUserName('')
   }
   
   return (
     <>
       <h1>Todo app</h1>
+      <button onClick ={logout}>kilép</button>
       {!user?
         <>
-          <input type={'text'} onChange={e => setText(e.target.value)} value={text}/>
+          <input type={'text'} onChange={e => setUserName(e.target.value)} value={userName}/>
           <button onClick={login}>Tovább</button>
         </>
       : 
@@ -88,9 +111,9 @@ const Home = () => {
           <h2>Szia {user}</h2>
           <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
           <button onClick={addTodo}>Hozzáad</button>
-          {users[user].map((todo, i)  => (
+          {users[user]?.map((todo, i)  => (
             <div key ={i}>
-              {!editTodo? 
+              {!todo.isBeingEdited? 
                 <h3>{todo.label}</h3>
                 :<>
                 <input 
@@ -103,10 +126,7 @@ const Home = () => {
               {todo.done? <p>kész</p> : <p>nope</p>}
               <button onClick = {() => deleteTodo(todo.id)}>törlés</button>
               <button onClick={() => finishTodo(todo.id)}>kész</button>
-              <button onClick ={() => {
-                setEditTodo(true)
-                setNewLabel(todo.label)
-              }}>mod</button>
+              <button onClick ={() => editTodo(todo)}>mod</button>
             </div>))}
           
         </>
