@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const Home = () => {
   const users = useSelector(state =>state.users)
   const currentUser = useSelector(state =>state.currentUser)
-  console.log(users)
   const [userName, setUserName] = React.useState('')
   const [user, setUser] = React.useState('')
   const [todo, setTodo] = React.useState('')
@@ -108,7 +107,7 @@ const Home = () => {
         </>
       : 
         <>
-          <h2>Szia {user}</h2>
+          <h2>Szia {user}!</h2>
           <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
           <button onClick={addTodo}>Hozzáad</button>
           {users[user]?.map((todo, i)  => (
@@ -122,8 +121,7 @@ const Home = () => {
                   onChange = {e => setNewLabel(e.target.value)}></input>
                 <button onClick = {() => modifyTodo(todo.id)}>ment</button>
                 </>}
-              <p>{todo.id}</p>
-              {todo.done? <p>kész</p> : <p>nope</p>}
+              {todo.done? <p>kész</p> : <p>nincs kész</p>}
               <button onClick = {() => deleteTodo(todo.id)}>törlés</button>
               <button onClick={() => finishTodo(todo.id)}>kész</button>
               <button onClick ={() => editTodo(todo)}>mod</button>

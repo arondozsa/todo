@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
       }
-      case 'editingTodo': 
+    case 'editingTodo': 
       currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
       currentTodo.isBeingEdited = action.payload.isBeingEdited
       return {
@@ -44,7 +44,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, currentUser : action.payload, users : {...state.users, [action.payload] : []}
       }
-
     case 'logout' : 
       return {
         ...state,  currentUser : action.payload
