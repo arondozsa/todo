@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Card from './Card'
 import './styles.scss'
 
 const Home = () => {
@@ -8,7 +9,6 @@ const Home = () => {
   const [userName, setUserName] = React.useState('')
   const [user, setUser] = React.useState('')
   const [todo, setTodo] = React.useState('')
-  const [newLabel, setNewLabel] = React.useState('')
   const dispatch = useDispatch()
   
 
@@ -21,12 +21,19 @@ const Home = () => {
     if (userName) {
       setUser(userName)
       dispatch({
-        type: 'addUser',
+        type: 'login',
         payload : userName
       })
     }
   }
-
+  function logout() {
+    dispatch({
+      type : 'logout',
+      payload : ''
+    })
+    setUser('')
+    setUserName('')
+  }
   function addTodo() {
     let todoId = Math.floor(Math.random()*100);
     while (Object.values(users).some(e => e.id === todoId)) {
@@ -44,64 +51,10 @@ const Home = () => {
     setTodo('')
   }
 
-  function deleteTodo (id) {
-    dispatch({
-      type : 'deleteTodo',
-      payload : {
-        id : id, 
-        user: user
-      } 
-    })
-  }
-
-  function finishTodo(id) {
-    dispatch({
-      type : 'finishTodo',
-      payload : {
-        id : id, 
-        user: user
-      } 
-    })
-  }
-
-  function modifyTodo(id) {
-    dispatch({
-      type : 'modifyTodo',
-      payload : {
-        id: id,
-        newLabel : newLabel,
-        user: user,
-        isBeingEdited : false
-      }
-    })
-  }
-
-  function editTodo(todo) {
-    dispatch({
-      type : 'editingTodo',
-      payload : {
-        id : todo.id,
-        isBeingEdited : true,
-        user: todo.user,
-      }
-    })
-    setNewLabel(todo.label)
-  }
-  
-  function logout() {
-    dispatch({
-      type : 'logout',
-      payload : ''
-    })
-    setUser('')
-    setUserName('')
-  }
-  
   return (
     <>
       <header>
         <h1>Todo app</h1>
-        <button onClick ={logout}>kilép</button>
       </header>
       {!user?
         <div className='login'>
@@ -110,29 +63,16 @@ const Home = () => {
         </div>
       : 
         <div className='pageContainer'>
-          <h2>Szia {user}!</h2>
-          <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
-          <button onClick={addTodo}>Hozzáad</button>
+          <div className='headerContainer'>
+            <button className='logout' onClick ={logout}>kilép</button>
+            <h2>Szia {user}!</h2>
+            <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
+            <button className ='addTodo' onClick={addTodo}>Hozzáad</button>
+          </div>
           <div className='todoContainer'>
           
             {users[user]?.map((todo, i)  => (
-              <div className='todoCard' key ={i}>
-                {!todo.isBeingEdited? 
-                  <h3>{todo.label}</h3>
-                  :<>
-                  <input 
-                    type={'text'}  
-                    value = {newLabel} 
-                    onChange = {e => setNewLabel(e.target.value)}></input>
-                  <button onClick = {() => modifyTodo(todo.id)}>ment</button>
-                  </>}
-                {todo.done? <p>kész</p> : <p>nincs kész</p>}
-                <div className='buttonContainer'>
-                  <button onClick = {() => deleteTodo(todo.id)}>törlés</button>
-                  <button onClick={() => finishTodo(todo.id)}>kész</button>
-                  <button onClick ={() => editTodo(todo)}>mod</button>
-                </div>
-              </div>))}
+              <Card user = {user} todo = {todo} key ={i}/>))}
               
           </div>
           

@@ -1,5 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import './styles.scss'
+
 const Items = () => {
   const users = useSelector(state =>state.users)
   const currentUser = useSelector(state =>state.currentUser)

@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
       }
-    case 'addUser' : 
+    case 'login' : 
       if (Object.keys(state.users).find(e => e == action.payload)) {
         return {
           ...state, currentUser : action.payload, users : {...state.users, }

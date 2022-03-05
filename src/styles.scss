@@ -1,65 +1,203 @@
+$bg: #cfe0e8;
+$font-color: #ecf4f9;
+$font-shadow: -1px 0 #32779a, 0 1px #32779a, 1px 0 #32779a, 0 -1px #32779a;
+$header : 	 #3886ad;
+$header-shadow : -1px 0#b2d5e6, 0 1px#b2d5e6, 1px 0#b2d5e6, 0 -1px #b2d5e6;
+$button-color : #daebe8;
+$button-hover : #cbd8d6;
+$button-shadow : 2px 2px 5px 1px  #61a0c2;
+$todo-bg : #87bdd8;
+$header-button: #87bdd8;
+$header-button-shadow: 1px 2px 5px 1px #3886ad;
+$header-button-hover : #52a0c7;
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: linear-gradient(#cfe0e8, #9ec9e0);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  h1 {
+    color: $header;
+    text-shadow: $header-shadow
+  }
+  h2 {
+    color: $header;
+    text-shadow: $header-shadow;
+  }
+  input {
+    border: none;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.6rem;
+  }
+}
+.pageContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0.5rem 1rem;
+  padding: 0.5rem;
+  input {
+   grid-row: 3;
+   grid-column: 1 / -1;
+   }
+   box-sizing: border-box;
+}
+
+header {
+  h1 {
+    text-align: center ;
+  }
+  padding: 1rem;
+}
+.login {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 1rem 1rem;
+  padding: 0.5rem;
+  input {
+    width: 30%;
+    height: fit-content;
+  }
+  button {
+    background: $header-button;
+    box-shadow: $header-button-shadow;
+    cursor: pointer;
+    transition: 0.4s;
+    border-radius: 8px;
+    padding: 0.15rem 0.5rem;
+    margin: 0.5rem;
+    border: none;
+    color: $font-color;
+    text-shadow: $font-shadow;
+    &:hover {
+      background: $header-button-hover
+    }
+  }
+}
+
+ .headerContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
+    h2{
+      grid-column: 1/ -1;
+      grid-row: 1;
+      justify-self: center;
+      padding: 1rem;
+    }
+   .addTodo {
+      grid-column: -2;
+      grid-row: 2;
+      height: fit-content;
+      width: fit-content;
+      align-self: center;
+      justify-self: center;
+      background: $header-button;
+      box-shadow: $header-button-shadow;
+      cursor: pointer;
+      transition: 0.4s;
+      border-radius: 8px;
+      padding: 0.15rem 0.5rem;
+      margin: 0.5rem;
+      border: none;
+      color: $font-color;
+      text-shadow: $font-shadow;
+      &:hover {
+        background: $header-button-hover
+      }
+   }
+   .logout {
+    grid-column: -2;
+    grid-row: 1;
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
+    justify-self: center;
+    background: $header-button;
+    box-shadow: $header-button-shadow;
+    cursor: pointer;
+    transition: 0.4s;
+    border-radius: 8px;
+    padding: 0.15rem 0.5rem;
+    margin: 0.5rem;
+    border: none;
+    color: $font-color;
+    text-shadow: $font-shadow;
+    &:hover {
+      background: $header-button-hover
+    }
+   }
+   input {
+    grid-column: 2 / -2;
+    grid-row: 2;
+    width:auto;
+    height: fit-content;
+    align-self: center;
+   }
+ }
+ 
 .todoContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-content: center;
   justify-items: center;
   grid-column: 1/-1;
+  .todoCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background:  $todo-bg;
+    border-radius: 2rem;
+    margin: 1rem;
+    box-shadow: 2px 2px 15px 0 #519ec8;
+    animation: newTodo 1s;
+    .buttonContainer {
+      display: flex;
+      justify-content: space-evenly;
+      gap: 1rem;
+    }
+    button {
+      background: $button-color;
+      box-shadow: $button-shadow;
+      cursor: pointer;
+      transition: 0.4s;
+      border-radius: 8px;
+      padding: 0.15rem 0.5rem;
+      margin: 0.5rem;
+      border: none;
+    }
+    button:hover {
+      background: $button-hover;
+    }
+    input {
+      width : 80%
+    }
+  }
 }
-.todoCard {
-  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: rgba(229, 23, 236, 0.1);
-  border-radius: 2rem;
-  margin: 2rem;
+
+@keyframes newTodo {
+  0% {
+    transform: translate(-300%);
+    opacity: 0;
+    box-shadow: 10px 10px 20px 2px rgb(105, 105, 105);
+  }
+  100% {
+    opacity: 1;
+  }
 }
-.buttonContainer {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 1rem;
+
+@media (max-width: 1000px) {  
+  .todoContainer {
+    grid-template-columns: 1fr 1fr;
+  }
 }
-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin: 1rem;
-}
-header button {
-  height: 1.5rem;
-}
-h1 {
-  margin: 0 auto ;
-}
-h2 {
-  grid-column: 1 /-1;
-  justify-self: center;
-}
-.pageContainer {
- display: grid;
- grid-template-columns: 1fr 1fr;
- margin: 2rem;
- padding: 0.5rem;
- justify-items: center;
-}
-input {
-  width: 500px;
-}
-button {
-  background: white;
-  box-shadow: 2px 2px 5px 1px gray;
-  cursor: pointer;
-  transition: 0.5s;
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-  margin: 0.5rem;
-}
-button:hover {
-  background: #bbbbbb;
-}
-.login {
-  display: flex;
-  justify-content: space-evenly;
+
+@media (max-width: 700px) {
+  .todoContainer {
+    grid-template-columns: 1fr;
+  }
 }
