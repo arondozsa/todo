@@ -144,7 +144,9 @@ header {
   align-content: center;
   justify-items: center;
   grid-column: 1/-1;
+  overflow: hidden;
   .todoCard {
+    transition: 1s linear;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,7 +156,6 @@ header {
     border-radius: 2rem;
     margin: 1rem;
     box-shadow: 2px 2px 15px 0 #519ec8;
-    animation: newTodo 1s;
     .buttonContainer {
       display: flex;
       justify-content: space-evenly;
@@ -200,4 +201,22 @@ header {
   .todoContainer {
     grid-template-columns: 1fr;
   }
+}
+@keyframes exitingTodo {
+  0% {
+    transform: translate(0)
+    
+  }
+  100% {
+    transform: translate(500%);
+    opacity: 0;
+    box-shadow: 10px 10px 20px 2px rgb(105, 105, 105);
+  }
+}
+.entering {
+  animation: newTodo 0.2s ;
+}
+.exiting {
+  animation: exitingTodo 0.5s ;
+
 }

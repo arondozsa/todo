@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Card from "./Card";
 import './styles.scss'
 
 const Items = () => {
@@ -15,23 +16,15 @@ const Items = () => {
         <option value={'active'}>aktív</option>
         <option value={'done'}>kész</option>
       </select>
+      <div className="todoContainer">
       {selected == 'all' ?
-      todos.map((e, i) => <div key = {i}>
-        <h3>{e.label}</h3>
-        {e.done? <p>kész</p> : <p>nop</p>}
-      </div>)
+      todos.map((e, i) => <Card key = {i} todo = {e} user = {currentUser}/>)
       : selected == 'active' ?
-      todos.filter(e => e.done == false).map((e,i) => <div key = {i}>
-        <h3>{e.label}</h3>
-        <p>nop</p>
-      </div>) 
+      todos.filter(e => e.done == false).map((e,i) => <Card key = {i} todo = {e}/>) 
       :
-      todos.filter(e => e.done != false).map((e,i) => <div key = {i}>
-        <h3>{e.label}</h3>
-        <p>kész</p>
-      </div>) 
+      todos.filter(e => e.done != false).map((e,i) => <Card key = {i} todo = {e}/>) 
       }
-
+      </div>
     </>
   )
 }

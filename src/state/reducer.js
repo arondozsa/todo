@@ -35,6 +35,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
       }
+    case 'exiting' :
+      state.users[action.payload.user].forEach(e => {
+        e.transitionState = ''
+      })
+      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
+      currentTodo.transitionState = 'exiting'
+      return {
+        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
+      }
     case 'login' : 
       if (Object.keys(state.users).find(e => e == action.payload)) {
         return {

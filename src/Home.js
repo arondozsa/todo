@@ -9,7 +9,9 @@ const Home = () => {
   const [userName, setUserName] = React.useState('')
   const [user, setUser] = React.useState('')
   const [todo, setTodo] = React.useState('')
+  const [transitionState, setTransitionState] = React.useState('')
   const dispatch = useDispatch()
+
   
 
   React.useEffect(() => {
@@ -45,7 +47,8 @@ const Home = () => {
         user: user,
         label : todo,
         id : todoId,
-        done : false
+        done : false,
+        transitionState : 'entering'
       }
     })
     setTodo('')

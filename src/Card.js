@@ -1,24 +1,30 @@
 import React from "react"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './styles.scss'
 
 
 const Card = props => {
-  const users = useSelector(state =>state.users)
-  const currentUser = useSelector(state =>state.currentUser)
   const [newLabel, setNewLabel] = React.useState('')
   const dispatch = useDispatch()
   const { user, todo } = props
-
+  const [transitionState, setTransitionState] = React.useState('')
 
   function deleteTodo (id) {
-      dispatch({
-        type : 'deleteTodo',
-        payload : {
-          id : id, 
-          user: user
-        } 
-      })
+    dispatch({
+      type : 'exiting',
+      payload : {
+        id : id, 
+        user: user
+      } 
+    })
+    setTimeout(() => {dispatch({
+      type : 'deleteTodo',
+      payload : {
+        id : id, 
+        user: user
+      } 
+    })
+    }, 500)
   }
 
   function finishTodo(id) {
@@ -55,7 +61,7 @@ const Card = props => {
     setNewLabel(todo.label)
   }
   return (
-    <div className = 'todoCard'>
+    <div key ={todo.id} className = {`todoCard ${todo.transitionState}`}>
       {!todo.isBeingEdited? 
         <h3>{todo.label}</h3>
         :<>
