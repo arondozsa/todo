@@ -1,5 +1,5 @@
 import React from "react"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './styles.scss'
 
 
@@ -7,7 +7,14 @@ const Card = props => {
   const [newLabel, setNewLabel] = React.useState('')
   const dispatch = useDispatch()
   const { user, todo } = props
-  const [transitionState, setTransitionState] = React.useState('')
+  const [isBeingEdited, setIsBeingEdited] = React.useState(false)
+
+  React.useEffect(()=> {
+
+    if (isBeingEdited) {
+      dispatch({type : 'cancelEdit', payload : {user : user, id : todo.id}})
+    }
+  },[])
 
   function deleteTodo (id) {
     dispatch({
@@ -24,7 +31,7 @@ const Card = props => {
         user: user
       } 
     })
-    }, 500)
+    }, 200)
   }
 
   function finishTodo(id) {
@@ -37,19 +44,8 @@ const Card = props => {
     })
   }
 
-  function modifyTodo(id) {
-    dispatch({
-      type : 'modifyTodo',
-      payload : {
-        id: id,
-        newLabel : newLabel,
-        user: user,
-        isBeingEdited : false
-      }
-    })
-  }
-
   function editTodo(todo) {
+    setIsBeingEdited(true)
     dispatch({
       type : 'editingTodo',
       payload : {
@@ -60,9 +56,21 @@ const Card = props => {
     })
     setNewLabel(todo.label)
   }
+  function modifyTodo(id) {
+    setIsBeingEdited(false)
+    dispatch({
+      type : 'modifyTodo',
+      payload : {
+        id: id,
+        newLabel : newLabel,
+        user: user,
+        isBeingEdited : false
+      }
+    })
+  }
   return (
     <div key ={todo.id} className = {`todoCard ${todo.transitionState}`}>
-      {!todo.isBeingEdited? 
+      {!isBeingEdited? 
         <h3>{todo.label}</h3>
         :<>
           <input 

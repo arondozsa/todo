@@ -9,7 +9,6 @@ const Home = () => {
   const [userName, setUserName] = React.useState('')
   const [user, setUser] = React.useState('')
   const [todo, setTodo] = React.useState('')
-  const [transitionState, setTransitionState] = React.useState('')
   const dispatch = useDispatch()
 
   
@@ -37,6 +36,7 @@ const Home = () => {
     setUserName('')
   }
   function addTodo() {
+    if (!todo) return
     let todoId = Math.floor(Math.random()*100);
     while (Object.values(users).some(e => e.id === todoId)) {
       todoId = Math.floor(Math.random()*1000)

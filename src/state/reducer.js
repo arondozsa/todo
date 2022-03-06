@@ -35,6 +35,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
       }
+    case 'cancelEdit':
+      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
+      currentTodo.isBeingEdited = false
+      return {
+        ...state
+      }
     case 'exiting' :
       state.users[action.payload.user].forEach(e => {
         e.transitionState = ''

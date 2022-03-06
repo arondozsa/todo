@@ -8,7 +8,6 @@ const Items = () => {
   const currentUser = useSelector(state =>state.currentUser)
   const todos = users[currentUser]
   const [selected, setSelected] = React.useState('all')
-  console.log(todos)
   return (
     <>
       <select onChange={e => setSelected(e.target.value)}>
@@ -20,9 +19,9 @@ const Items = () => {
       {selected == 'all' ?
       todos.map((e, i) => <Card key = {i} todo = {e} user = {currentUser}/>)
       : selected == 'active' ?
-      todos.filter(e => e.done == false).map((e,i) => <Card key = {i} todo = {e}/>) 
+      todos.filter(e => e.done == false).map((e,i) => <Card key = {i} todo = {e} user = {currentUser}/>) 
       :
-      todos.filter(e => e.done != false).map((e,i) => <Card key = {i} todo = {e}/>) 
+      todos.filter(e => e.done != false).map((e,i) => <Card key = {i} todo = {e} user = {currentUser}/>) 
       }
       </div>
     </>
