@@ -39,7 +39,7 @@ const ItemList = () => {
   return (
     <div className='pageContainer'>
       <div className='headerContainer'>
-        <button className='logout' onClick ={logout}>kilép</button>
+        <button className='logout' onClick ={logout}>Kilép</button>
         <h2>Szia {currentUser}!</h2>
         <input type={'text'} onChange={e => setTodo(e.target.value)} value={todo} />
         <button className ='addTodo' onClick={addTodo}>Hozzáad</button>

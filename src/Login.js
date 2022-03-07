@@ -18,6 +18,7 @@ const Login = () => {
 
   return (
   <div className='login'>
+    <h2>Kérlek lépj be!</h2>
     <input type={'text'} onChange={e => setUserName(e.target.value)} value={userName}/>
     <button onClick={login}>Tovább</button>
   </div>)

@@ -46,20 +46,21 @@ const Card = props => {
     setNewLabel(todo.label)
   }
   return (
-    <div key ={todo.id} className = {`todoCard ${transitionState}`}>
+    <div key ={todo.id} className = {`todoCard ${transitionState} ${todo.done? ' done' : ''}`}>
       {!todo.isBeingEdited? 
         <h3>{todo.label}</h3>
         :<>
           <input 
             type={'text'}  
             value = {newLabel} 
-            onChange = {e => setNewLabel(e.target.value)}></input>
+            onChange = {e => setNewLabel(e.target.value)}>
+          </input>
         </>}
-      {todo.done? <p>kész</p> : <p>nincs kész</p>}
+        {todo.done? <span>Kész</span>: <span>Aktív</span>}
         <div className='buttonContainer'>
           <button onClick = {() => deleteTodo(todo.id)}>Töröl</button>
-          <button onClick={() => finishTodo(todo.id)}>Teljesít</button>
-      {!todo.isBeingEdited ? <button onClick ={() => modifyTodo(todo.id)}>Szerkeszt</button> :  <button onClick = {() => modifyTodo(todo.id)}>Mentés</button>} 
+          <button onClick={() => finishTodo(todo.id)}>{todo.done ?'Aktivál ': 'Teljesít'}</button>
+          <button onClick ={() => modifyTodo(todo.id)}>{!todo.isBeingEdited ? 'Szerkeszt' : 'Ment' }</button> 
         </div>
     </div>
   )

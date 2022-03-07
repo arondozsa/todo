@@ -10,8 +10,8 @@ const Home = () => {
   return (
     <>
       <header>
+        <Link to= '/items'>Szűrés</Link>
         <h1>Todo app</h1>
-        <Link to= '/items'>Items</Link>
       </header>
       {!currentUser?
         <Login />

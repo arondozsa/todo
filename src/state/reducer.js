@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
                     }
                     return {
                       ...todo,
-                      done : true
+                      done : !todo.done
                     }
                   }),    
                 ]
@@ -69,7 +69,7 @@ const reducer = (state = initialState, action) => {
           }
       }
     case actionTypes.login : 
-      if (Object.keys(state.users).find(e => e == action.payload)) {
+      if (Object.keys(state.users).find(e => e === action.payload)) {
         return {
           ...state, 
             currentUser : action.payload, 
