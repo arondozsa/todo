@@ -50,15 +50,17 @@ const Card = props => {
   return (
     <div key ={todo.id} className = {`todoCard ${transitionState} ${todo.done? ' done' : ''}`}>
       {!todo.isBeingEdited? 
-        <h3>{todo.label} {todo.id}</h3>
+        <>
+          <h3>{todo.label}</h3>
+          {todo.done? <span>Kész</span> : <span>Aktív</span>}
+        </>
         :<>
           <input 
             type={'text'}  
             value = {newLabel} 
             onChange = {e => setNewLabel(e.target.value)}>
           </input>
-        </>}
-        {todo.done? <span>Kész</span>: <span>Aktív</span>}
+        </>} 
         <div className='buttonContainer'>
           <button onClick = {() => deleteTodo(todo.id)}>Töröl</button>
           <button onClick={() => finishTodo(todo.id)}>{todo.done ?'Aktivál ': 'Teljesít'}</button>
