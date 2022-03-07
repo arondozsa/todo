@@ -18,9 +18,10 @@ const ItemList = () => {
   }
   function addTodo() {
     if (!todo) return
+    if (users[currentUser].length == 199) return alert('Túl sok teendőt vettél fel, előbb törölj néhányat!')
     let todoId = Math.floor(Math.random()*100);
-    while (Object.values(users).some(e => e.id === todoId)) {
-      todoId = Math.floor(Math.random()*1000)
+    while (users[currentUser].some(e => e.id === todoId)) {
+      todoId = Math.floor(Math.random()*100 + 100)
     }
     setTransitionState('entering')
     dispatch({
@@ -33,7 +34,6 @@ const ItemList = () => {
       }
     })
     setTodo('')
-    
   }
 
   return (

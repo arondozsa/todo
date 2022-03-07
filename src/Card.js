@@ -13,14 +13,16 @@ const Card = props => {
 
   function deleteTodo (id) {
     setTransitionState('exiting')
-    setTimeout(() => {dispatch({
+    setTimeout(() => {
+      setTransitionState('')
+      dispatch({
       type : actionTypes.deleteTodo,
       payload : {
         id : id, 
         user: user
       } 
     })
-    setTransitionState('')
+    
     }, 200)
   }
 
@@ -48,7 +50,7 @@ const Card = props => {
   return (
     <div key ={todo.id} className = {`todoCard ${transitionState} ${todo.done? ' done' : ''}`}>
       {!todo.isBeingEdited? 
-        <h3>{todo.label}</h3>
+        <h3>{todo.label} {todo.id}</h3>
         :<>
           <input 
             type={'text'}  
