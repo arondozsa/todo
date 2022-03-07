@@ -1,67 +1,94 @@
+import * as actionTypes from './actionTypes'
 const initialState = {
   currentUser : '' , 
   users: { }
 }
 const reducer = (state = initialState, action) => {
-  let currentTodo;
   switch (action.type) {
     default : 
       return state
-    case 'addTodo':
+    case actionTypes.addTodo:
       return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user], action.payload]}
+        ...state, 
+          users : {
+            ...state.users, 
+              [action.payload.user] : [
+                ...state.users[action.payload.user], 
+                action.payload
+              ]
+          }
       }
-    case 'deleteTodo' : 
+    case actionTypes.deleteTodo : 
       return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user].filter(todo => {
-          return todo.id !== action.payload.id})]}
-    }
-    case 'finishTodo' :
-      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
-      currentTodo.done = true
-      return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
+        ...state, 
+          users : {
+            ...state.users, 
+              [action.payload.user] : [
+                ...state.users[action.payload.user]
+                  .filter(todo => todo.id !== action.payload.id)
+              ]
+          }
       }
-    case 'modifyTodo' : 
-      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
-      currentTodo.label = action.payload.newLabel
-      currentTodo.isBeingEdited = false
+    case actionTypes.finishTodo :
       return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
+        ...state, 
+          users : {
+            ...state.users,
+              [action.payload.user]: 
+                [
+                  ...state.users[action.payload.user].map(todo => {
+                    if (todo.id !== action.payload.id) {
+                      return todo 
+                    }
+                    return {
+                      ...todo,
+                      done : true
+                    }
+                  }),    
+                ]
+         }
       }
-    case 'editingTodo': 
-      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
-      currentTodo.isBeingEdited = action.payload.isBeingEdited
+    case actionTypes.modifyTodo : 
       return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
+        ...state, 
+          users : {
+            ...state.users,
+              [action.payload.user]: 
+                [
+                  ...state.users[action.payload.user].map(todo => {
+                    if (todo.id !== action.payload.id) {
+                      return todo 
+                    }
+                    return {
+                      ...todo,
+                      isBeingEdited : !todo.isBeingEdited,
+                      label : action.payload.newLabel
+                    }
+                  }),    
+                ]
+          }
       }
-    case 'cancelEdit':
-      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
-      currentTodo.isBeingEdited = false
-      return {
-        ...state
-      }
-    case 'exiting' :
-      state.users[action.payload.user].forEach(e => {
-        e.transitionState = ''
-      })
-      currentTodo = state.users[action.payload.user].find(todo => todo.id === action.payload.id)
-      currentTodo.transitionState = 'exiting'
-      return {
-        ...state, users : {...state.users, [action.payload.user] : [...state.users[action.payload.user]]}
-      }
-    case 'login' : 
+    case actionTypes.login : 
       if (Object.keys(state.users).find(e => e == action.payload)) {
         return {
-          ...state, currentUser : action.payload, users : {...state.users, }
+          ...state, 
+            currentUser : action.payload, 
+              users : {
+                ...state.users
+              }
         }
       }
       return {
-        ...state, currentUser : action.payload, users : {...state.users, [action.payload] : []}
+        ...state,
+        currentUser : action.payload, 
+          users : {
+            ...state.users,
+              [action.payload] : []}
       }
-    case 'logout' : 
+    case actionTypes.logout : 
       return {
-        ...state,  currentUser : action.payload
+        ...state,  
+          currentUser : action.payload
       }  
   }
 }

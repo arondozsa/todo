@@ -8,21 +8,29 @@ const Items = () => {
   const currentUser = useSelector(state =>state.currentUser)
   const todos = users[currentUser]
   const [selected, setSelected] = React.useState('all')
+  const [filteredTodos, setFilteredTodos] = React.useState(todos)
+  function handleChange(e){
+    setSelected(e)
+    if (e === 'all') setFilteredTodos(todos)
+    if (e === 'active') setFilteredTodos(todos?.filter(e => !e.done))
+    if (e === 'done') setFilteredTodos(todos?.filter(e => e.done))
+  }
+
+  React.useEffect(() => {
+    handleChange(selected)
+  },[users])
+
   return (
     <>
-      <select onChange={e => setSelected(e.target.value)}>
+      <select onChange={e => {
+        handleChange(e.target.value)
+      }}>
         <option value={'all'}>mind</option>
         <option value={'active'}>aktív</option>
         <option value={'done'}>kész</option>
       </select>
       <div className="todoContainer">
-      {selected == 'all' ?
-      todos.map((e, i) => <Card key = {i} todo = {e} user = {currentUser}/>)
-      : selected == 'active' ?
-      todos.filter(e => e.done == false).map((e,i) => <Card key = {i} todo = {e} user = {currentUser}/>) 
-      :
-      todos.filter(e => e.done != false).map((e,i) => <Card key = {i} todo = {e} user = {currentUser}/>) 
-      }
+      {filteredTodos?.map((e, i) => <Card key = {i} todo = {e} user = {currentUser}/>)}
       </div>
     </>
   )
