@@ -63,17 +63,23 @@ header {
   padding: 1rem;
 }
 .login {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
   margin: 1rem 1rem;
   padding: 0.5rem;
   h2 {
     margin : 1rem;
+    grid-column: 2/4;
+    text-align: center;
   }
   input {
-    width: 30%;
+    width: 100%;
     height: fit-content;
+    align-self: center;
+    justify-self:center;
+    grid-column: 2/4;
+    grid-row: 2;
   }
   button {
     background: $header-button;
@@ -86,6 +92,11 @@ header {
     border: none;
     color: $font-color;
     text-shadow: $font-shadow;
+    width: fit-content;
+    align-self: center;
+    justify-self: end;
+    grid-row: 2;
+    grid-column: 4/5;
     &:hover {
       background: $header-button-hover
     }
@@ -263,11 +274,18 @@ select {
     }
   }
   .login {
-    flex-direction: column;
-    gap: 1rem;
+    h2 {
+      grid-column: 1/5;
+    }
     input {
       padding: 0.5rem;
       width: 80%;
+      grid-column: 1/5;
+    }
+    button {
+      grid-row: 3;
+      grid-column: 2 / 4;
+      justify-self: center;
     }
   }
   .headerContainer {
