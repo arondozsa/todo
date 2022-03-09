@@ -12,6 +12,7 @@ $header-button: #87bdd8;
 $header-button-shadow: 1px 2px 5px 1px #3886ad;
 $header-button-hover : #52a0c7;
 $font-color-dark :  #193c4d;
+
 * {
   margin: 0;
   padding: 0;
@@ -51,6 +52,7 @@ body {
     border-radius: 0.6rem;
   }
 }
+
 .pageContainer {
   display: grid;
   grid-template-columns: 1fr;
@@ -68,6 +70,7 @@ header {
   }
   padding: 1rem;
 }
+
 .login {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -240,6 +243,7 @@ header {
     }
   }
 }
+
 select {
   margin: 0.5rem 0.5rem;
   border-radius: 8px;
@@ -247,18 +251,8 @@ select {
   font-size: 1rem;
   padding: 0.25rem 0.45rem;
 }
-@keyframes newTodo {
-  0% {
-    transform: translate(-500%);
-    opacity: 0;
-    box-shadow: 10px 10px 20px 2px rgb(105, 105, 105);
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
-@media (max-width: 1200px) {  
+@media (max-width: 1225px) {  
   * {
     margin : 0;
     padding: 0;
@@ -276,7 +270,7 @@ select {
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 765px) {
   .todoContainer {
     grid-template-columns: 1fr;
     .todoCard {
@@ -317,6 +311,7 @@ select {
     }
   }
 }
+
 @keyframes exitingTodo {
   0% {
     transform: translate(0)
@@ -328,10 +323,22 @@ select {
     box-shadow: 10px 10px 20px 2px rgb(105, 105, 105);
   }
 }
+
+@keyframes newTodo {
+  0% {
+    transform: translate(-500%);
+    opacity: 0;
+    box-shadow: 10px 10px 20px 2px rgb(105, 105, 105);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .entering {
   animation: newTodo 0.2s ;
 }
+
 .exiting {
   animation: exitingTodo 0.5s ;
-
 }
